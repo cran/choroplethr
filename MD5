@@ -1,0 +1,17 @@
+3cf98e423b94ad71a900b6520ee2fd65 *DESCRIPTION
+8cc0f0c23b6bcdf4a9de54d736c30803 *LICENSE
+4acdf3caca079396f91deeefa93b770f *NAMESPACE
+76ce1decbe88e4306e954f39d268a847 *NEWS
+52fbcc709a42ee63a1a84d9d6f4effc8 *R/acs.R
+0ccf873134311abd3da95955f14d8c74 *R/choroplethr.R
+d5cae153efccae3f38895984e0f3d3c2 *R/choroplethr_acs.R
+6e4bcca643c98efcbc7029e8b763a58d *R/common.R
+df5d478b0f2015bcbbb23b4d49df30be *R/county.R
+21172707c725f08ee2b98546c13a0c3c *R/state.R
+101bbf1cd555fdf82f2d61b5786340e8 *R/zipcode.R
+154c7c51a7715a567db6e26995080339 *README.md
+9a068f4299de6f06a0b9a9ed4a53eccd *inst/tests/test-choroplethr.R
+3021f65ca2d590c92833d01c9005e049 *inst/tests/test-choroplethr_acs.R
+f2412f6b61648d81041afd76cf61d848 *man/choroplethr.Rd
+1f57fb63bc2c3f9de4c778c438e01476 *man/choroplethr_acs.Rd
+1e1568a3c969c1d1a1b13f35febfdf6a *tests/test-all.R
