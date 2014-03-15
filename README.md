@@ -1,5 +1,5 @@
 # choroplethr
-Master: [![Build Status](https://travis-ci.org/arilamstein/choroplethr.png?branch=master)](https://travis-ci.org/arilamstein/choroplethr)
+Master: [![Build Status](https://travis-ci.org/trulia/choroplethr.png?branch=master)](https://travis-ci.org/trulia/choroplethr)
 
 `choroplethr` simplifies the creation of choropleths in R.  A choropleth is a thematic map where geographic regions such as states are colored according to some metric, such as which political party the state voted for.  `choroplethr` supports three levels of geographic resolution and two types of scales.  Common problems such as matching county data with map data, choosing and labeling discrete scales and creating a clean background are handled automatically. 
 
@@ -9,7 +9,13 @@ The `choroplethr` package is described more fully in [this](http://tech.truliabl
 
 ## Installation
 
-To install the development version of `choroplethr` use the `devtools` package:
+To install the latest stable release type the following from an R console:
+
+```
+install.packages("choroplethr")
+```
+
+To install the development version use the `devtools` package:
 
 ```
 # install.packages("devtools")
@@ -17,8 +23,6 @@ library(devtools)
 install_github("choroplethr", "arilamstein")
 library(choroplethr)
 ```
-
-`choroplethr` is currently not available on CRAN.
 
 ## Usage
 
@@ -61,3 +65,5 @@ choroplethr_acs("B19301", "zip");
 ```
 
 To use `choroplethr_acs` you must have the [acs package](http://cran.r-project.org/web/packages/acs/) installed, acquired a [Census API key](http://www.census.gov/developers/tos/key_request.html), and stored your key with the the acs package's `api.key.install` function.
+
+There is a discussion group for `choroplethr` [here](https://groups.google.com/forum/#!forum/choroplethr), where you can ask questions, submit feature requests, etc.
