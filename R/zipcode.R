@@ -41,8 +41,8 @@ render_zip_choropleth = function(choropleth.df, title="", scaleName="", states=s
       scale_color_continuous(scaleName, labels=comma) +
       geom_polygon(data = state_map_df, color = "black", fill = NA, aes(group=group));
     
-  } else {
-    stopifnot(length(levels(choropleth.df$value)) <= 9) # brewer scale only goes up to 9
+  } else { # assume character or factor
+    stopifnot(length(unique(choropleth.df$value)) <= 9) # brewer scale only goes up to 9
     
     ggplot(choropleth.df, aes(x=longitude, y=latitude,color=value)) + 
       geom_point() + 
@@ -58,7 +58,7 @@ zip_choropleth_auto = function(df, num_buckets = 9, title = "", scaleName = "", 
 {
   choropleth.df = bind_df_to_zip_map(df)
   
-  if (num_buckets > 1) {
+  if (is.numeric(df$value) && num_buckets > 1) {
     choropleth.df$value = discretize_values(choropleth.df$value, num_buckets)
   }
   render_zip_choropleth(choropleth.df, title, scaleName, states)
