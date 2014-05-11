@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<title>Mapping Census Data</title>
+<title>Animated Choropleths - Viewing a Geospatial Time Series</title>
 
 <!-- Styles for R syntax highlighter -->
 <style type="text/css">
@@ -190,48 +190,90 @@ hr {
 
 <body>
 <!--
-  %\VignetteEngine{knitr}
-%\VignetteIndexEntry{4) Mapping Census Data}
+%\VignetteEngine{knitr}
+%\VignetteIndexEntry{e) Creating Animated Choropleths}
 -->
 
-<h1>Mapping Census Data</h1>
+<h1>Animated Choropleths - Viewing a Geospatial Time Series</h1>
 
-<p>choroplethr provides native support for creating choropleths from US Census data. This functionality is available with the <code>choroplethr_acs</code> function (<code>?choroplethr_acs</code>).  The data which choroplethr supports comes from <a href="https://www.census.gov/acs/www/">The American Community Survey (ACS)</a>. To get a feel for this data you might want to view a list of <a href="https://www.census.gov/acs/www/methodology/questionnaire_archive/">questions</a> asked on it.  </p>
+<p>Animated choropleths are a useful way to understand how regional values change over time.  Consider the US Presidential Election choropleth: it is normally used to show how each state voted in the last presidential election.  But what if you want to understand how the results of last election compare to the previous election? Or the election before?  In this case an animated choropleth is an effective tool to understand the data.</p>
 
-<h2>How it Works</h2>
+<h3>An Example Dataset</h3>
 
-<p>choroplethr does not store any data locally.  Rather, it uses the <a href="http://cran.r-project.org/web/packages/acs/index.html">R acs package</a> to get ACS data via the Census API.  This means a few things for users of choroplethr</p>
+<p>choroplethr ships with an example dataset of all US Presidential Election returns.</p>
 
-<ol>
-<li><p>You must have a <a href="http://www.census.gov/developers/tos/key_request.html">Census API Key</a> to use this functionality.  It&#39;s free and easy to get. When you get it type </p>
+<pre><code class="r">library(choroplethr)
+data(choroplethr)
 
-<pre><code>library(acs); 
-api.key.install(&#39;&lt;your census api key&gt;&#39;);
-</code></pre></li>
-<li><p>You will have access to the latest data as soon as it becomes available.</p></li>
-<li><p>You only have access to data from 2010 onwards, because the Census Bureau does not provide historic data via its API.</p></li>
-</ol>
-
-<h2>Navigating ACS Data</h2>
-
-<ol>
-<li><p><a href="http://www.census.gov/acs/www/guidance_for_data_users/estimates/">Learn</a> about the difference between the 1, 3 and 5 year estimates.</p></li>
-<li><p><a href="http://factfinder2.census.gov/faces/help/jsf/pages/metadata.xhtml?lang=en&amp;type=survey&amp;id=survey.en.ACS_ACS">Select</a> a survey to visualize.</p></li>
-<li><p><a href="http://factfinder2.census.gov/faces/help/jsf/pages/metadata.xhtml?lang=en&amp;type=dataset&amp;id=dataset.en.ACS_12_5YR">Select</a> a table to visualize.  When you click thru to a particular survey, you will likely be surprised at just how much data is available.  Here are some popular tables to gets you started:</p>
-
-<ul>
-<li>B01003: total population</li>
-<li>B01002: median age by sex</li>
-<li>B19001: household income in the last 12 months</li>
-</ul></li>
-</ol>
-
-<h2>Example</h2>
-
-<p>Here is how to view population estimates for each state from the 2012 5-year ACS. Notice that the title is automatically created for you from the name of the table.  Note that it is commented out because CRAN&#39;s servers do not have a US Census API key installed.</p>
-
-<pre><code class="r"># choroplethr_acs(&#39;B01003&#39;, &#39;state&#39;, endyear=2012, span=5)
+# ?df_president_ts
+head(df_president_ts)
 </code></pre>
+
+<pre><code>##        State 1789 1792 1796 1800 1804 1808 1812 1816 1820    1824 1828
+## 1    Alabama                                           DR Jackson    D
+## 2     Alaska                                                          
+## 3    Arizona                                                          
+## 4   Arkansas                                                          
+## 5 California                                                          
+## 6   Colorado                                                          
+##   1832 1836 1840 1844 1848 1852 1856 1860 1864 1868 1872 1876 1880 1884
+## 1    D    D    D    D    D    D    D   SD         R    R    D    D    D
+## 2                                                                      
+## 3                                                                      
+## 4         D    D    D    D    D    D   SD         R    R    D    D    D
+## 5                             D    D    R    R    R    R    R    D    R
+## 6                                                           R    R    R
+##   1888 1892 1896 1900 1904 1908 1912 1916 1920 1924 1928 1932 1936 1940
+## 1    D    D    D    D    D    D    D    D    D    D    D    D    D    D
+## 2                                                                      
+## 3                                  D    D    R    R    R    D    D    D
+## 4    D    D    D    D    D    D    D    D    D    D    D    D    D    D
+## 5    R    D    R    R    R    R   PR    D    R    R    R    D    D    D
+## 6    R   PO    D    D    R    D    D    D    R    R    R    D    D    R
+##   1944 1948 1952 1956 1960 1964 1968 1972 1976 1980 1984 1988 1992 1996
+## 1    D   SR    D    D    I    R   AI    R    D    R    R    R    R    R
+## 2                        R    D    R    R    R    R    R    R    R    R
+## 3    D    D    R    R    R    R    R    R    R    R    R    R    R    D
+## 4    D    D    D    D    D    D   AI    R    D    R    R    R    D    D
+## 5    D    D    R    R    R    D    R    R    R    R    R    R    D    D
+## 6    R    D    R    R    R    D    R    R    R    R    R    R    D    R
+##   2000 2004 2008 2012
+## 1    R    R    R    R
+## 2    R    R    R    R
+## 3    R    R    R    R
+## 4    R    R    R    R
+## 5    D    D    D    D
+## 6    R    R    D    D
+</code></pre>
+
+<p>As expected, the data is hard to understand in a data.frame.  </p>
+
+<h3><code>choroplethr_animate</code></h3>
+
+<p>To animate this data.frame use the <code>choroplethr_animate</code> function (<code>?choroplethr_animate</code>).  It has one argument, a list of choropleths.  Our first task, then, is to convert <code>df_president_ts</code> into a list of choropleths:</p>
+
+<pre><code># create a list of choropleths of presidential election results for each year
+choropleths = list()
+for (i in 2:ncol(df_president_ts)) {
+  df           = df_president_ts[, c(1, i)]
+  colnames(df) = c(&quot;region&quot;, &quot;value&quot;)
+  title        = paste0(&quot;Presidential Election Results: &quot;, colnames(df_president_ts)[i])
+  choropleths[[i-1]] = choroplethr(df, &quot;state&quot;, title=title)
+}
+</code></pre>
+
+<p>Then call <code>choroplethr_animate</code> with the list of choropleths:</p>
+
+<pre><code>choroplethr_animate(choropleths)
+</code></pre>
+
+<h3>The Output</h3>
+
+<p><code>choroplethr_animate</code> will write each choropleth to your current working directory with the naming convention <code>choropleth_1.png</code>, <code>choropleth_2.png</code>, etc.  It will then write an HTML file named <code>animated_choropleth.html</code>.  Open that file with a browser - it contains a JavaScript based player that allows you to cycle thru all the images. </p>
+
+<p>Here is a screenshot of the player.  Note that in the upper right hand corner are <em>play</em> and <em>stop</em> buttons.  Clicking them will play or stop the animation.  There are also <em>+</em> and <em>-</em> buttons which allow you to cycle thru the animation at your own speed.</p>
+
+<p><img src="https://raw.githubusercontent.com/trulia/choroplethr/10e5e8447c24ef4ca8494eaa35ece8585e091993/wiki-images/animation-screenshot.png" alt="choroplethr_animate screenshot"/></p>
 
 </body>
 

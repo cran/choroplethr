@@ -1,6 +1,6 @@
 <!--
   %\VignetteEngine{knitr}
-%\VignetteIndexEntry{2) Choosing a Level of Detail (lod)}
+%\VignetteIndexEntry{b) Choosing a Level of Detail (lod)}
 -->
 
 Choosing a Level of Detail (lod)

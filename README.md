@@ -1,11 +1,20 @@
 # choroplethr
 Master: [![Build Status](https://travis-ci.org/trulia/choroplethr.png?branch=master)](https://travis-ci.org/trulia/choroplethr)
 
-`choroplethr` simplifies the creation of choropleths in R.  A choropleth is a thematic map where geographic regions such as states are colored according to some metric, such as which political party the state voted for.  `choroplethr` supports three levels of geographic resolution and three types of scales.  Common problems such as matching county data with map data, choosing and labeling discrete scales and creating a clean background are handled automatically. 
+`choroplethr` simplifies the creation of choropleths in R.  A choropleth is a thematic map where geographic regions such as states are colored according to some metric, such as which political party the state voted for.  `choroplethr` is built on top of the [ggplot2](http://ggplot2.org/) graphics library and is supports three levels of geographic resolution and three types of scales.  Common problems such as matching county data with map data, choosing and labeling discrete scales and creating a clean background are handled automatically. 
 
 `choroplethr` provides native support for viewing data from the US Census's [American Community Survey (ACS)](https://www.census.gov/acs/www/).  
 
-The `choroplethr` package is described more fully in the [wiki](https://github.com/trulia/choroplethr/wiki).
+`choropleth` also supports animating choropleths, which is useful for seeing trends in regions over time, such as population changes.
+
+The `choroplethr` package is described more fully in the following wiki pages:
+
+1. [What is a choropleth?  When should I use one?](https://github.com/trulia/choroplethr/wiki/What-is-a-choropleth%3F--When-should-I-use-one%3F)
+1. [Choosing a Level of Detail (lod)](https://github.com/trulia/choroplethr/wiki/Choosing-a-Level-of-Detail-%28lod%29)
+1. [Choosing a Scale Type](https://github.com/trulia/choroplethr/wiki/Choosing-a-Scale-Type)
+1. [Mapping Census Data](https://github.com/trulia/choroplethr/wiki/Mapping-Census-Data)
+1. [Animated Choropleths](https://github.com/trulia/choroplethr/wiki/Animated-Choropleths)
+1. [ZIP Level Maps](https://github.com/trulia/choroplethr/wiki/ZIP-Level-Maps)
 
 ## Installation
 

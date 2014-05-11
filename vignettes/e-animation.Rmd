@@ -1,6 +1,6 @@
 <!--
 %\VignetteEngine{knitr}
-%\VignetteIndexEntry{5) Creating Animated Choropleths}
+%\VignetteIndexEntry{e) Creating Animated Choropleths}
 -->
 
 Animated Choropleths - Viewing a Geospatial Time Series

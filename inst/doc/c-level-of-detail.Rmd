@@ -1,6 +1,6 @@
 <!--
   %\VignetteEngine{knitr}
-%\VignetteIndexEntry{3) Choosing a Scale Type}
+%\VignetteIndexEntry{c) Choosing a Scale Type}
 -->
   
 Choosing a Scale Type
