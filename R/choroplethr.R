@@ -15,12 +15,15 @@
 #' @param showLabels For state choropleths, whether or not to show state abbreviations on the map.
 #' Defaults to T. 
 #' @param states A vector of states to render.  Defaults to state.abb.
+#' @param renderAsInsets If true, Alaska and Hawaii will be rendered as insets on the map.  If false, all 50 states will be rendered
+#' on the same longitude and latitude map to scale. This variable is only checked when the "states" variable is equal to all 50 states.
+#' @param warn_na If true, choroplethr will emit a warning when it renders a state or county as an NA.
 #' @return A choropleth.
 #' 
 #' @keywords choropleth
 #' 
 #' @importFrom ggplot2 ggplot aes geom_polygon scale_fill_brewer ggtitle theme theme_grey element_blank geom_text
-#' @importFrom ggplot2 scale_fill_continuous map_data scale_colour_brewer
+#' @importFrom ggplot2 scale_fill_continuous scale_colour_brewer
 #' @importFrom plyr arrange rename
 #' @importFrom scales comma
 #' @importFrom Hmisc cut2
@@ -29,6 +32,7 @@
 #' 
 #' @export
 #' @examples
+#' \dontrun{
 #' data(choroplethr)
 #'
 #' # 2012 US Presidential results
@@ -44,13 +48,16 @@
 #' 
 #' # Zip Code Tabulated Area (ZCTA) population estimates.  
 #' choroplethr(df_pop_zip, "zip", title="2012 Population of each ZIP Code Tabulated Area (ZCTA)")
+#' }
 choroplethr = function(df, 
                        lod, 
                        num_buckets = 9, 
                        title = "", 
                        scaleName = "",
-                       showLabels = T,
-                       states = state.abb)
+                       showLabels = TRUE,
+                       states = state.abb,
+                       renderAsInsets = TRUE,
+                       warn_na = TRUE)
 {
   stopifnot(c("region", "value") %in% colnames(df))
   stopifnot(lod %in% c("state", "county", "zip"))
@@ -60,15 +67,13 @@ choroplethr = function(df,
   stopifnot(states %in% state.abb)
   stopifnot(!any(duplicated(states)))
   
-  states = states[!states %in% c("AK", "HI")] # for now, only render lower 48 states
-
   df = df[, c("region", "value")] # prevent naming collision from merges later on
   
   if (lod == "state") {
-    state_choropleth_auto(df, num_buckets, title, showLabels, scaleName, states);
+    state_choropleth_auto(df, num_buckets, title, showLabels, scaleName, states, renderAsInsets, warn_na);
   } else if (lod == "county") {
-    county_choropleth_auto(df, num_buckets, title, scaleName, states)
+    county_choropleth_auto(df, num_buckets, title, scaleName, states, renderAsInsets, warn_na)
   } else if (lod == "zip") {
-    zip_choropleth_auto(df, num_buckets, title, scaleName, states)
+    zip_choropleth_auto(df, num_buckets, title, scaleName, states, renderAsInsets)
   }
 }

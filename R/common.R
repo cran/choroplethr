@@ -25,8 +25,15 @@ normalize_state_names = function(state_names)
   state_names;
 }
 
+get_state_fips_from_abb = function(state_abbs)
+{
+  stopifnot(state_abbs %in% state.abb)
+
+  data(state.names, package="choroplethr", envir=environment())
+  state.names[state.names$abb %in% state_abbs, "fips.character"]
+}
+
 # return a state or county map of the us, only showing the specified states
-#' @importFrom ggplot2 map_data
 subset_map = function(lod, states)
 {
   stopifnot(lod %in% c("state", "county"))
@@ -36,36 +43,64 @@ subset_map = function(lod, states)
   # get specified map
   if (lod == "state")
   {
-    df = map_data("state")
+    data(map.states, package="choroplethr", envir = environment())
+    df = map.states
+    
+    # subset 
+    states = normalize_state_names(states);
+    df = df[df$region %in% states, ]
+    
   } else if (lod == "county") {
-    df = map_data("county")
+    data(map.counties, package="choroplethr", envir = environment())
+    df = map.counties
+    
+    # subset
+    df = df[df$STATE %in% get_state_fips_from_abb(states), ]
   }
   
-  # subset 
-  states = normalize_state_names(states);
-  df[df$region %in% states, ]
+  df
 }
 
+#' Create a simple ggplot2 theme for rendering choropleths
+#' 
+#' Removes axes, margins and sets the background to white.
+#' 
 #' @importFrom grid unit
-# this code, with minor modifications comes from section 13.19 
+#' @export
+#' @references This code, with minor modifications comes from section 13.19 
 # "Making a Map with a Clean Background" of "R Graphics Cookbook" by Winston Chang.  
-# Reused with permission. Create a theme with many of the background elements removed
-theme_clean = function(base_size = 12)
+# Reused with permission. 
+theme_clean = function()
 {
-  theme_grey(base_size);
   theme(
     axis.title        = element_blank(),
     axis.text         = element_blank(),
-#     panel.background  = element_blank(),
+    panel.background  = element_blank(),
     panel.grid        = element_blank(),
     axis.ticks.length = unit(0, "cm"),
     axis.ticks.margin = unit(0, "cm"),
     panel.margin      = unit(0, "lines"),
     plot.margin       = unit(c(0, 0, 0, 0), "lines"),
-    complete = TRUE
+    complete          = TRUE
   )
 }
 
+# like theme clean, but also remove the legend
+theme_inset = function()
+{
+  theme(
+    legend.position   = "none",
+    axis.title        = element_blank(),
+    axis.text         = element_blank(),
+    panel.background  = element_blank(),
+    panel.grid        = element_blank(),
+    axis.ticks.length = unit(0, "cm"),
+    axis.ticks.margin = unit(0, "cm"),
+    panel.margin      = unit(0, "lines"),
+    plot.margin       = unit(c(0, 0, 0, 0), "lines"),
+    complete          = TRUE
+  )
+}
 #' Make the output of cut2 a bit easier to read
 #' 
 #' Adds commas to numbers, removes unnecessary whitespace and allows an arbitrary separator.
@@ -138,4 +173,3 @@ discretize_df = function(df, num_buckets)
   
   df
 }
-
