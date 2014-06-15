@@ -1,5 +1,7 @@
 choroplethr: df_pop_county df_pop_state df_pop_zip df_president df_president_ts
+country.names
 county.names
 map.counties
 map.states
+map.world
 state.names
