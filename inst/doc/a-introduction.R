@@ -1,8 +1,7 @@
 ## ------------------------------------------------------------------------
     library(choroplethr)
-    data(choroplethr)
-    choroplethr(df_president, "state", title="Results from the 2012 US Presidential Election")
+    ?df_pop_state
+    data(df_pop_state)
 
-## ------------------------------------------------------------------------
-df_president
+    state_choropleth(df_pop_state, title="2012 US State Population Estimates", legend="Population")
 
