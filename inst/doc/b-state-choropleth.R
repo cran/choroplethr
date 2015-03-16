@@ -16,10 +16,10 @@ head(state.regions)
 
 ## ------------------------------------------------------------------------
 state_choropleth(df_pop_state,
-                 title   = "2012 Population Estimates",
-                 legend  = "Population",
-                 buckets = 1,
-                 zoom    = c("california", "washington", "oregon"))
+                 title      = "2012 Population Estimates",
+                 legend     = "Population",
+                 num_colors = 1,
+                 zoom       = c("california", "washington", "oregon"))
 
 ## ------------------------------------------------------------------------
 library(ggplot2)

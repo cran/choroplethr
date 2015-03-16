@@ -1,7 +1,16 @@
+choroplethr 3.0.0
+----------------------------------------------------------------
+-All zip related functionality has been deprecated and moved to the choroplethrZip package, which is available here: https://github.com/arilamstein/choroplethrZip. 
+-Merge the county_choropleth and county_choropleth_zoom functions. The resulting function now has two zoom parameters: state_zoom and county_zoom.
+-Break the choroplethr_acs function into three separate functions: state_choropleth_acs, county_choropleth_acs and zip_choropleth_acs (located in choroplethrZip). This is because each function now has different zoom parameters, so it didn't make sense to have one function with a large number of parameters, many of which cannot be set for any given function call.
+-Rename "buckets" parameter to "num_colors" to clarity the meaning for the user. During development it made sense to think of assigning values to buckets. But I think that it's easier for users to just think about how many colors they want on the map, and then see in the comments that each color has an equal number of regions assigned to it. Also, "num_colors=1" has a more natural relationship to a continuous scale than "buckets=1".
+-Bug fix: documentation of choroplethr_animate() was not working
+-Deprecate get_acs_df in favor of get_acs_data
+-Export choropleth object.
+
 choroplethr 2.1.1
 ----------------------------------------------------------------
 -Bug fix: text for vignettes was for some reason not rebuilt into HTML.
-
 
 choroplethr 2.1.0
 ----------------------------------------------------------------

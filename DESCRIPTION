@@ -7,24 +7,23 @@ Description: Choropleths are thematic maps where geographic regions, such as
     Providing API connections to interesting data sources for making
     choropleths. 3. Providing a framework for creating choropleths from
     arbitrary shapefiles. Please see the vignettes for more details.
-Version: 2.1.1
+Version: 3.0.0
 Author: Ari Lamstein <arilamstein@gmail.com>[cre, aut],
     Brian P Johnson <brian@pjohnson.info> [ctb, frontend animation code]
 Maintainer: Ari Lamstein <arilamstein@gmail.com>
-URL: https://github.com/trulia/choroplethr/,
+URL: https://github.com/arilamstein/choroplethr/,
         https://groups.google.com/forum/#!forum/choroplethr
-BugReports: https://github.com/trulia/choroplethr/issues
+BugReports: https://github.com/arilamstein/choroplethr/issues
 Copyright: Trulia, Inc.
 License: BSD_3_clause + file LICENSE
 Imports: scales, Hmisc, stringr, ggplot2, dplyr, R6, acs, WDI
-Suggests: testthat, zipcode, knitr, choroplethrMaps, choroplethrAdmin1
+Suggests: testthat, knitr, choroplethrMaps, choroplethrAdmin1
 Depends: R (>= 3.0.0)
 VignetteBuilder: knitr
-Collate: 'choropleth.R' 'admin1.R' 'admin1_data.R' 'choroplethr.R'
-        'choroplethr_acs.R' 'choroplethr_animate.R' 'choroplethr_wdi.R'
-        'country.R' 'country_data.R' 'usa.R' 'county.R' 'county_data.R'
-        'county_zoom.R' 'state.R' 'state_data.R' 'zip.R' 'zip_data.R'
-Packaged: 2014-12-11 01:11:47 UTC; arilamstein
+Collate: 'acs.R' 'choropleth.R' 'admin1.R' 'choroplethr_animate.R'
+        'choroplethr_wdi.R' 'country.R' 'usa.R' 'county.R'
+        'county_zoom.R' 'data.R' 'deprecated.R' 'state.R'
+Packaged: 2015-03-16 00:02:09 UTC; arilamstein
 NeedsCompilation: no
 Repository: CRAN
-Date/Publication: 2014-12-11 07:59:29
+Date/Publication: 2015-03-16 07:40:15

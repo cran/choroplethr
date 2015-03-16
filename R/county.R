@@ -12,6 +12,10 @@ CountyChoropleth = R6Class("CountyChoropleth",
     # initialize with us state map
     initialize = function(user.df)
     {
+      if (!requireNamespace("choroplethrMaps", quietly = TRUE)) {
+        stop("Package choroplethrMaps is needed for this function to work. Please install it.", call. = FALSE)
+      }
+
       data(county.map, package="choroplethrMaps", envir=environment())
       data(county.regions, package="choroplethrMaps", envir=environment())
       # USAChoropleth requires a column called "state" that has full lower case state name (e.g. "new york")
@@ -46,7 +50,7 @@ CountyChoropleth = R6Class("CountyChoropleth",
 )
 
 
-#' Create a choropleth of USA Counties with sensible defaults.
+#' Create a choropleth of US Counties
 #' 
 #' The map used is county.map in the choroplethrMaps package.  See country.regions
 #' in the choroplethrMaps package for an object which can help you coerce your regions
@@ -56,40 +60,41 @@ CountyChoropleth = R6Class("CountyChoropleth",
 #' the "region" column must exactly match how regions are named in the "region" column in county.map.
 #' @param title An optional title for the map.  
 #' @param legend An optional name for the legend.  
-#' @param buckets The number of equally sized buckets to places the values in.  A value of 1 
-#' will use a continuous scale, and a value in [2, 9] will use that many buckets. 
-#' @param zoom An optional vector of states to zoom in on. Elements of this vector must exactly 
+#' @param num_colors The number of colors on the map. A value of 1 
+#' will use a continuous scale. A value in [2, 9] will use that many colors. 
+#' @param state_zoom An optional vector of states to zoom in on. Elements of this vector must exactly 
 #' match the names of states as they appear in the "region" column of ?state.regions.
+#' @param county_zoom An optional vector of counties to zoom in on. Elements of this vector must exactly 
+#' match the names of counties as they appear in the "region" column of ?county.regions.
 #' 
 #' @examples
 #' \dontrun{
-#' # demonstrate default parameters - visualization using 7 equally sized buckets
+#' # default parameters
 #' data(df_pop_county)
 #' county_choropleth(df_pop_county, title="US 2012 County Population Estimates", legend="Population")
 #'
-#'#' # demonstrate continuous scale and zoom
+#' # continuous scale and state_zoom
 #' data(df_pop_county)
 #' county_choropleth(df_pop_county, 
 #'                  title="US 2012 County Population Estimates", 
 #'                  legend="Population", 
-#'                  buckets=1, 
-#'                  zoom=c("california", "oregon", "washington"))
+#'                  num_colors=1, 
+#'                  state_zoom=c("california", "oregon", "washington"))
 #'
-#' # demonstrate how choroplethr handles character and factor values
-#' # demonstrate user creating their own discretization of the input
-#' data(df_pop_county)
-#' df_pop_county$str = ""
-#' for (i in 1:nrow(df_pop_county))
-#' {
-#'   if (df_pop_county[i,"value"] < 1000000)
-#'   {
-#'     df_pop_county[i,"str"] = "< 1M"
-#'   } else {
-#'     df_pop_county[i,"str"] = "> 1M"
-#'   }
-#' }
-#' df_pop_county$value = df_pop_county$str
-#' county_choropleth(df_pop_county, title="Which counties have more than 1M people?")
+#' library(dplyr)
+#' library(choroplethrMaps)
+#' data(county.regions)
+#'
+#' # show the population of the 5 counties (boroughs) that make up New York City
+#' nyc_county_names=c("kings", "bronx", "new york", "queens", "richmond")
+#' nyc_county_fips = county.regions %>%
+#'   filter(state.name=="new york" & county.name %in% nyc_county_names) %>%
+#'   select(region)
+#' county_choropleth(df_pop_county, 
+#'                   title="Population of Counties in New York City",
+#'                   legend="Population",
+#'                   num_colors=1,
+#'                   county_zoom=nyc_county_fips$region)
 #' }
 #' @export
 #' @importFrom Hmisc cut2
@@ -98,12 +103,28 @@ CountyChoropleth = R6Class("CountyChoropleth",
 #' @importFrom ggplot2 scale_fill_continuous scale_colour_brewer
 #' @importFrom scales comma
 #' @importFrom grid unit
-county_choropleth = function(df, title="", legend="", buckets=7, zoom=NULL)
+county_choropleth = function(df, title="", legend="", num_colors=7, state_zoom=NULL, county_zoom=NULL)
 {
-  c = CountyChoropleth$new(df)
-  c$title  = title
-  c$legend = legend
-  c$set_buckets(buckets)
-  c$set_zoom(zoom)
-  c$render()
+  # user can only zoom in by one of the zoom options
+  if (!is.null(state_zoom) && !is.null(county_zoom))
+  {
+    stop("You cannnot set state_zoom and county_zoom at the same time.")
+  }
+
+  if (!is.null(county_zoom))
+  {
+    c = CountyZoomChoropleth$new(df)
+    c$title  = title
+    c$legend = legend
+    c$set_num_colors(num_colors)
+    c$set_zoom(county_zoom)
+    c$render()
+  } else {
+    c = CountyChoropleth$new(df)
+    c$title  = title
+    c$legend = legend
+    c$set_num_colors(num_colors)
+    c$set_zoom(state_zoom)
+    c$render()
+  }
 }
