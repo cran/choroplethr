@@ -1,7 +1,9 @@
 #' The base Choropleth object.
 #' @importFrom R6 R6Class
 #' @importFrom scales comma
-#' @importFrom ggplot2 scale_color_continuous coord_quickmap
+#' @importFrom ggplot2 scale_color_continuous coord_quickmap coord_map scale_x_continuous scale_y_continuous
+#' @importFrom ggmap get_map ggmap
+#' @importFrom RgoogleMaps MaxZoom
 #' @export
 Choropleth = R6Class("Choropleth", 
                      
@@ -72,7 +74,86 @@ Choropleth = R6Class("Choropleth",
         ggtitle(self$title) + 
         self$projection
     },
-        
+
+    # left
+    get_min_long = function() 
+    {
+      min(self$choropleth.df$long)
+    },
+    
+    # right 
+    get_max_long = function() 
+    {
+      max(self$choropleth.df$long) 
+    },
+    
+    # bottom 
+    get_min_lat = function() 
+    {
+      min(self$choropleth.df$lat) 
+    },
+    
+    # top
+    get_max_lat = function() 
+    {
+      max(self$choropleth.df$lat) 
+    },
+    
+    get_bounding_box = function(long_margin_percent, lat_margin_percent)
+    {
+      c(self$get_min_long(), # left
+        self$get_min_lat(),  # bottom
+        self$get_max_long(), # right
+        self$get_max_lat())  # top
+    },
+    
+    get_x_scale = function()
+    {
+      scale_x_continuous(limits = c(self$get_min_long(), self$get_max_long()))
+    },
+    
+    get_y_scale = function()
+    {
+      scale_y_continuous(limits = c(self$get_min_lat(), self$get_max_lat()))
+    },
+    
+    get_reference_map = function()
+    {
+      # note: center is (long, lat) but MaxZoom is (lat, long)
+      
+      center = c(mean(self$choropleth.df$long), 
+                 mean(self$choropleth.df$lat))
+
+      max_zoom = MaxZoom(range(self$choropleth.df$lat), 
+                         range(self$choropleth.df$long))
+      
+      get_map(location = center,
+              zoom     = max_zoom,
+              color    = "bw")  
+    },
+    
+    get_choropleth_as_polygon = function(alpha)
+    {
+      geom_polygon(data = self$choropleth.df,
+                   aes(x = long, y = lat, fill = value, group = group), alpha = alpha) 
+    },
+    
+    render_with_reference_map = function(alpha = 0.5)
+    {
+      self$prepare_map()
+
+      reference_map = self$get_reference_map()
+      
+      ggmap(reference_map) +  
+        self$get_choropleth_as_polygon(alpha) + 
+        self$get_scale() +
+        self$get_x_scale() +
+        self$get_y_scale() +
+        self$theme_clean() + 
+        ggtitle(self$title) + 
+        coord_map()
+    },
+    
     # support e.g. users just viewing states on the west coast
     clip = function() {
       stopifnot(!is.null(private$zoom))
@@ -118,7 +199,7 @@ Choropleth = R6Class("Choropleth",
       self$discretize() # discretize the input. normally people don't want a continuous scale
       self$bind() # bind the input values to the map values
     },
-    
+
     #' @importFrom scales comma
     get_scale = function()
     {
@@ -231,6 +312,7 @@ Choropleth = R6Class("Choropleth",
         private$zoom = zoom
       }
     },
+
     get_zoom = function() { private$zoom },
     
     set_num_colors = function(num_colors)

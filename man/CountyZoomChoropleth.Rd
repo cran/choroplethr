@@ -4,7 +4,7 @@
 \name{CountyZoomChoropleth}
 \alias{CountyZoomChoropleth}
 \title{Create a county-level choropleth that zooms on counties, not states.}
-\format{\preformatted{Class 'R6ClassGenerator' <environment: 0x10b2107c8> 
+\format{\preformatted{Class 'R6ClassGenerator' <environment: 0x115a09e40> 
  - attr(*, "name")= chr "CountyZoomChoropleth_generator"
 }}
 \usage{

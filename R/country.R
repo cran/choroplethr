@@ -38,7 +38,6 @@ CountryChoropleth = R6Class("CountryChoropleth",
 #' will use a continuous scale, and a value in [2, 9] will use that many colors. 
 #' @param zoom An optional vector of countries to zoom in on. Elements of this vector must exactly 
 #' match the names of countries as they appear in the "region" column of ?country.regions
-
 #' @examples
 #' # demonstrate default options
 #' data(df_pop_country)

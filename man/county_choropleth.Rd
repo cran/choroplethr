@@ -5,7 +5,7 @@
 \title{Create a choropleth of US Counties}
 \usage{
 county_choropleth(df, title = "", legend = "", num_colors = 7,
-  state_zoom = NULL, county_zoom = NULL)
+  state_zoom = NULL, county_zoom = NULL, reference_map = FALSE)
 }
 \arguments{
 \item{df}{A data.frame with a column named "region" and a column named "value".  Elements in
@@ -23,6 +23,8 @@ match the names of states as they appear in the "region" column of ?state.region
 
 \item{county_zoom}{An optional vector of counties to zoom in on. Elements of this vector must exactly
 match the names of counties as they appear in the "region" column of ?county.regions.}
+
+\item{reference_map}{If true, render the choropleth over a reference map from Google Maps.}
 }
 \description{
 The map used is county.map in the choroplethrMaps package.  See country.regions
@@ -33,30 +35,39 @@ into the required format.
 \dontrun{
 # default parameters
 data(df_pop_county)
-county_choropleth(df_pop_county, title="US 2012 County Population Estimates", legend="Population")
+county_choropleth(df_pop_county,
+                  title  = "US 2012 County Population Estimates",
+                  legend = "Population")
 
-# continuous scale and state_zoom
+# zoom in on california and add a reference map
+county_choropleth(df_pop_county,
+                  title         = "California County Population Estimates",
+                  legend        = "Population",
+                  state_zoom    = "california",
+                  reference_map = TRUE)
+
+# continuous scale
 data(df_pop_county)
 county_choropleth(df_pop_county,
-                 title="US 2012 County Population Estimates",
-                 legend="Population",
-                 num_colors=1,
-                 state_zoom=c("california", "oregon", "washington"))
+                 title      = "US 2012 County Population Estimates",
+                 legend     = "Population",
+                 num_colors = 1,
+                 state_zoom = c("california", "oregon", "washington"))
 
 library(dplyr)
 library(choroplethrMaps)
 data(county.regions)
 
 # show the population of the 5 counties (boroughs) that make up New York City
-nyc_county_names=c("kings", "bronx", "new york", "queens", "richmond")
+nyc_county_names = c("kings", "bronx", "new york", "queens", "richmond")
 nyc_county_fips = county.regions \%>\%
-  filter(state.name=="new york" & county.name \%in\% nyc_county_names) \%>\%
+  filter(state.name == "new york" & county.name \%in\% nyc_county_names) \%>\%
   select(region)
 county_choropleth(df_pop_county,
-                  title="Population of Counties in New York City",
-                  legend="Population",
-                  num_colors=1,
-                  county_zoom=nyc_county_fips$region)
+                  title        = "Population of Counties in New York City",
+                  legend       = "Population",
+                  num_colors   = 1,
+                  county_zoom = nyc_county_fips$region)
 }
 }
 
