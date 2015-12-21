@@ -6,9 +6,15 @@ Master: [![Build Status](https://travis-ci.org/arilamstein/choroplethr.png?branc
 -->
 choroplethr simplifies the creation of choropleth maps in R. Choropleths are thematic maps where geographic regions, such as states, are colored according to some metric, such as the number of people who live in that state.  choroplethr simplifies this process by
     
-1. Providing ready-made functions for creating choropleths using four different maps.
+1. Providing ready-made functions for creating choropleths using 220 different maps.
 2. Providing API connections to interesting data sources for making choropleths.
 3. Providing a framework for creating choropleths from arbitrary shapefiles.
+
+## Training & Development
+
+My free course [Learn to Map Census Data in R](http://www.arilamstein.com/free-course) can teach you how to use this package. There is also a [paid course](http://courses.arilamstein.com/courses/mapmaking-r-choroplethr) that goes into much more detail. I blog about this package's development [here](http://www.arilamstein.com/blog).
+
+## Documentation
 
 Please see the following pages for more details.
 
