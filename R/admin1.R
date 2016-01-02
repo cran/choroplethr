@@ -41,9 +41,11 @@ Admin1Choropleth = R6Class("Admin1Choropleth",
 #' will use a continuous scale. A value in [2, 9] will use that many colors. 
 #' @param zoom An optional vector of regions to zoom in on. Elements of this vector must exactly 
 #' match the names of regions as they appear in the "region" column of ?admin1.regions.
-
+#' @param reference_map If true, render the choropleth over a reference map from Google Maps.
 #' @examples
 #' \dontrun{
+#' 
+#' library(choroplethrAdmin1)
 #' 
 #' data(df_japan_census)
 #' head(df_japan_census)
@@ -64,6 +66,14 @@ Admin1Choropleth = R6Class("Admin1Choropleth",
 #'                    "Population", 
 #'                    1, 
 #'                    kansai)
+#'                    
+#' admin1_choropleth("japan", 
+#'                    df_japan_census, 
+#'                    "2010 Japan Population Estimates", 
+#'                    "Population", 
+#'                    1, 
+#'                    kansai,
+#'                    reference_map = TRUE)
 #' }
 #' @export
 #' @importFrom Hmisc cut2
@@ -72,7 +82,7 @@ Admin1Choropleth = R6Class("Admin1Choropleth",
 #' @importFrom ggplot2 scale_fill_continuous scale_colour_brewer ggplotGrob annotation_custom 
 #' @importFrom scales comma
 #' @importFrom grid unit grobTree
-admin1_choropleth = function(country.name, df, title="", legend="", num_colors=7, zoom=NULL)
+admin1_choropleth = function(country.name, df, title="", legend="", num_colors=7, zoom=NULL, reference_map=FALSE)
 {
   if (!requireNamespace("choroplethrAdmin1", quietly = TRUE)) {
     stop("Package choroplethrAdmin1 is needed for this function to work. Please install it.", call. = FALSE)
@@ -82,5 +92,9 @@ admin1_choropleth = function(country.name, df, title="", legend="", num_colors=7
   c$legend = legend
   c$set_num_colors(num_colors)
   c$set_zoom(zoom)
-  c$render()
+  if (reference_map) {
+    c$render_with_reference_map()
+  } else {
+    c$render()
+  }
 }
