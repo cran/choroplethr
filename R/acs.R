@@ -132,6 +132,22 @@ get_acs_data = function(tableId, map, endyear=2012, span=5, column_idx=-1, inclu
   list(df=df, title=title) # need to return 2 values here
 }
 
+get_tract_acs_data = function(tracts, tableId, endyear=2012, span=5, column_idx=-1, include_moe=FALSE)
+{
+  acs.data = acs.fetch(geography    = tracts, 
+                       table.number = tableId,
+                       col.names    = "pretty", 
+                       endyear      = endyear, 
+                       span         = span)
+  
+  if (column_idx == -1) {
+    column_idx = get_column_idx(acs.data, tableId) # some tables have multiple columns 
+  }
+  title      = acs.data@acs.colnames[column_idx] 
+  df         = convert_acs_obj_to_df("tract", acs.data, column_idx, include_moe) # choroplethr requires a df
+  list(df=df, title=title) # need to return 2 values here
+}
+
 # support multiple column tables
 #' @importFrom utils menu
 get_column_idx = function(acs.data, tableId)
@@ -165,7 +181,7 @@ make_geo = function(map)
 #' @importFrom acs standard.error
 convert_acs_obj_to_df = function(map, acs.data, column_idx, include_moe) 
 {
-  stopifnot(map %in% c("state", "county", "zip"))
+  stopifnot(map %in% c("state", "county", "zip", "tract"))
   
   if (map == "state") {
     # create a data.frame of (region, value) pairs
@@ -214,6 +230,42 @@ convert_acs_obj_to_df = function(map, acs.data, column_idx, include_moe)
 
     # clipping is done in the choroplethrZip package, because that's where the region definitions are
     df
+  } else if (map == "tract") {
+    df = data.frame(state  = geography(acs.data)$state,   # integer
+                    county = geography(acs.data)$county,  # integer
+                    tract  = geography(acs.data)$tract,   # character
+                    value  = as.numeric(estimate(acs.data[,column_idx])))
+    
+    if (include_moe)
+    {
+      df$margin.of.error = 1.645 * as.numeric(standard.error(acs.data[, column_idx])) 
+    }    
+    
+    # county fips code must be 5 chars
+    # 2 chars for the state (i.e. leading "0")
+    df$state = as.character(df$state)
+    df$state = paste0("0", df$state)
+    # 3 chars for the county - i.e. leading "0" or leading "00"
+    df$county = as.character(df$county)
+    for (i in 1:nrow(df))
+    {
+      if (nchar(df[i, "county"]) == 1) {
+        df[i, "county"] = paste0("00", df[i, "county"])
+      } else if (nchar(df[i, "county"]) == 2) {
+        df[i, "county"] = paste0("0", df[i, "county"])
+      }
+    } 
+    
+    # now concat with the tract id
+    df$region = paste0(df$state, df$county, df$tract)
+    
+    # only include relevant columns
+    if (include_moe)
+    {
+      df[, c("region", "value", "margin.of.error")] # only return (region, value) pairs
+    } else {
+      df[, c("region", "value")]
+    }
   }
   
 }

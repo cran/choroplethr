@@ -46,4 +46,3 @@ county_choropleth(df, title="Counties with a population over 1M", legend="Popula
 \seealso{
 http://factfinder2.census.gov/faces/help/jsf/pages/metadata.xhtml?lang=en&type=survey&id=survey.en.ACS_ACS, which lists all ACS Surveys.
 }
-
