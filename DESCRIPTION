@@ -7,8 +7,8 @@ Description: Choropleths are thematic maps where geographic regions, such as
     Providing data and API connections to interesting data sources for making
     choropleths. 3. Providing a framework for creating choropleths from
     arbitrary shapefiles. 4. Overlaying those maps over reference maps from
-    Google Maps. Please see the vignettes for more details.
-Version: 3.6.0
+    Google Maps. 
+Version: 3.6.1
 Author: Ari Lamstein <ari@lamsteinconsulting.com>[cre, aut],
     Brian P Johnson <brian@pjohnson.info> [ctb, frontend animation code]
 Maintainer: Ari Lamstein <ari@lamsteinconsulting.com>
@@ -27,6 +27,6 @@ Collate: 'acs.R' 'choropleth.R' 'admin1.R' 'admin1_region.R'
         'tracts.R' 'utils.R'
 RoxygenNote: 6.0.1
 NeedsCompilation: no
-Packaged: 2017-04-08 23:34:40 UTC; arilamstein
+Packaged: 2017-04-15 18:37:57 UTC; arilamstein
 Repository: CRAN
-Date/Publication: 2017-04-09 14:01:25 UTC
+Date/Publication: 2017-04-16 10:23:48 UTC
