@@ -8,11 +8,11 @@ Description: Choropleths are thematic maps where geographic regions, such as
     choropleths. 3. Providing a framework for creating choropleths from
     arbitrary shapefiles. 4. Overlaying those maps over reference maps from
     Google Maps. 
-Version: 3.6.1
+Version: 3.6.2
 Author: Ari Lamstein <ari@lamsteinconsulting.com>[cre, aut],
     Brian P Johnson <brian@pjohnson.info> [ctb, frontend animation code]
 Maintainer: Ari Lamstein <ari@lamsteinconsulting.com>
-URL: http://www.arilamstein.com/open-source
+URL: www.choroplethr.com
 Copyright: Trulia, Inc.
 License: BSD_3_clause + file LICENSE
 Imports: scales, Hmisc, stringr, ggplot2 (>= 2.0.0), dplyr, R6, WDI,
@@ -27,6 +27,6 @@ Collate: 'acs.R' 'choropleth.R' 'admin1.R' 'admin1_region.R'
         'tracts.R' 'utils.R'
 RoxygenNote: 6.0.1
 NeedsCompilation: no
-Packaged: 2017-04-15 18:37:57 UTC; arilamstein
+Packaged: 2018-06-21 00:44:47 UTC; arilamstein
 Repository: CRAN
-Date/Publication: 2017-04-16 10:23:48 UTC
+Date/Publication: 2018-06-21 07:42:29 UTC

@@ -2,7 +2,7 @@
   if (!interactive()) return()
   
   tips <- c(
-    "View the Choroplethr documentation here: www.AriLamstein.com/open-source",
+    "View the Choroplethr documentation at www.Choroplethr.com",
     "Choroplethr has a free course: www.CensusMappingCourse.com"
   )
   
