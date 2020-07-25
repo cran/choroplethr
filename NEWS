@@ -1,3 +1,11 @@
+choroplethr 3.6.4
+----------------------------------------------------------------
+-Update ?tract_choropleth so that it works with the new version of tigris package (v1.0), which defaults to using Simple Features instead of SpatialPolygonDataFrames. This feature should be considered beta for now, but it is better than the complete loss of functionality it replaces.
+-Add two new datasets to facilitate testing tracts: ?df_pop_ny_tracts and ?df_ny_tract_demographics.
+-Remove all deprecated functions. While those functions are normally only removed after a major update (which this is not), they have been listed as deprecated for years now.
+-On a diff basis, most of these changes are due to internal changes in roxygen2 and how it generates documentation. Of significant note is that roxygen2 now emits a warning for every R6 object member function which has no documentation. Choroplethr relies heavily on R6 member functions, but I think that R package help is the wrong place for that documentation (since these objects are really just for internal use), so calls to roxygenize() now emit a lot of warnings. 
+-There seems to be a bug in R CMD check, or in the documentation which roxygen2 generates. The examples in ?calculate_percent_change now cause R CMD check to fail. However, the code works fine. These examples are not enclosed in a \dontrun for the sole purpose of satisfying R CMD check. This seems like a poor reason to enclose examples in a \dontrun block, but I don't see another option at this time.
+
 choroplethr 3.6.3
 ----------------------------------------------------------------
 Remove dependency on scales package. The recent update of the scales package 
