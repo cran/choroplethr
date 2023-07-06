@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Mapping US Census Data</title>
+<style type="text/css">
+/**
+ * Prism.s theme ported from highlight.js's xcode style
+ */
+pre code {
+  padding: 1em;
+}
+.token.comment {
+  color: #007400;
+}
+.token.punctuation {
+  color: #999;
+}
+.token.tag,
+.token.selector {
+  color: #aa0d91;
+}
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol {
+  color: #1c00cf;
+}
+.token.property,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin {
+  color: #c41a16;
+}
+.token.inserted {
+  background-color: #ccffd8;
+}
+.token.deleted {
+  background-color: #ffebe9;
+}
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  color: #9a6e3a;
+}
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #836c28;
+}
+.token.function,
+.token.class-name {
+  color: #DD4A68;
+}
+.token.regex,
+.token.important,
+.token.variable {
+  color: #5c2699;
+}
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+.token.italic {
+  font-style: italic;
+}
+</style>
+<style type="text/css">
+body {
+  font-family: sans-serif;
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+body, .footnotes, code { font-size: .9em; }
+li li { font-size: .95em; }
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+pre, img { max-width: 100%; }
+pre, pre:hover {
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+pre code {
+  display: block;
+  overflow-x: auto;
+}
+code { font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace; }
+:not(pre) > code, code[class] { background-color: #F8F8F8; }
+code.language-undefined, pre > code:not([class]) {
+  background-color: inherit;
+  border: 1px solid #eee;
+}
+table {
+  margin: auto;
+  border-top: 1px solid #666;
+}
+table thead th { border-bottom: 1px solid #ddd; }
+th, td { padding: 5px; }
+thead, tfoot, tr:nth-child(even) { background: #eee; }
+blockquote {
+  color: #666;
+  margin: 0;
+  padding-left: 1em;
+  border-left: 0.5em solid #eee;
+}
+hr, .footnotes::before { border: 1px dashed #ddd; }
+.frontmatter { text-align: center; }
+#TOC .numbered li { list-style: none; }
+#TOC .numbered { padding-left: 0; }
+#TOC .numbered ul { padding-left: 1em; }
+table, .body h2 { border-bottom: 1px solid #666; }
+.body .appendix, .appendix ~ h2 { border-bottom-style: dashed; }
+.footnote-ref a::before { content: "["; }
+.footnote-ref a::after { content: "]"; }
+.footnotes::before {
+  content: "";
+  display: block;
+  max-width: 20em;
+}
+
+@media print {
+  body {
+    font-size: 12pt;
+    max-width: 100%;
+  }
+  tr, img { page-break-inside: avoid; }
+}
+@media only screen and (min-width: 992px) {
+  pre { white-space: pre; }
+}
+</style>
+</head>
+<body>
+<div class="include-before">
+</div>
+<div class="frontmatter">
+<div class="title"><h1>Mapping US Census Data</h1></div>
+<div class="author"><h2></h2></div>
+<div class="date"><h3></h3></div>
+</div>
+<div class="body">
+<!--
+  %\VignetteEngine{knitr}
+%\VignetteIndexEntry{g) Mapping Census Data}
+-->
+<h1 id="mapping-us-census-data">Mapping US Census Data</h1>
+<p>choroplethr provides native support for creating choropleths from US Census data. Note that the Census Bureau has many datasets; currently choroplethr only works with data from the American Community Survey (ACS). Below is an overview of Choroplethr’s functionality for working with ACS data. To learn more please take the free course <a href="https://www.census.gov/data/academy/courses/choroplethr.html">Mapping Census Bureau Data in R with Choroplethr</a>.</p>
+<p>Choroplethr has three functions for working with ACS data:</p>
+<ol>
+<li><code>?get_acs_data</code></li>
+<li><code>?state_choroplethr_acs</code></li>
+<li><code>?county_choropleth_acs</code></li>
+</ol>
+<h2 id="census-api-key">Census API Key</h2>
+<p>To use these functions you must get and install a Census API. It is free and you can get one <a href="http://api.census.gov/data/key_signup.html">here</a>. Then type the following from R:</p>
+<pre><code>library(acs)
+api.key.install('&lt;your census api key&gt;')
+</code></pre>
+<p>Note that the Census API currently only provides ACS data from 2010 onwards.</p>
+<h2 id="navigating-acs-data">Navigating ACS Data</h2>
+<p>Here are some tips for getting started with ACS data:</p>
+<ol>
+<li>Browse the <a href="https://www.census.gov/programs-surveys/acs/about/forms-and-instructions.html">list of questions</a> the ACS asks.</li>
+<li>Learn the <a href="https://www.census.gov/programs-surveys/acs/guidance/estimates.html">difference</a> between the 1, 3 and 5 year estimates.</li>
+<li>Visit <a href="https://data.census.gov/">data.census.gov</a> to select a table you wish to visualize. You will likely be surprised at just how much data is available.  Here are some popular tables to gets you started:
+<ul>
+<li>B01003: total population</li>
+<li>B01002: median age by sex</li>
+<li>B19001: household income in the last 12 months</li>
+</ul>
+</li>
+</ol>
+<h2 id="example">Example</h2>
+<p>Here is how to view population estimates for each state from the 2012 5-year ACS. Notice that the title is automatically created for you from the name of the table.  Note that it is commented out because CRAN’s servers do not have a US Census API key installed.</p>
+<pre><code class="language-r"># state_choropleth_acs(&quot;B01003&quot;, endyear=2012, span=5)
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/trulia/choroplethr/master/wiki-images/v20/acs-example.png" alt="" /></p>
+</div>
+<div class="include-after">
+</div>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+</body>
+</html>

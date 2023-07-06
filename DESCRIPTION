@@ -8,7 +8,7 @@ Description: Choropleths are thematic maps where geographic regions, such as
     choropleths. 3. Providing a framework for creating choropleths from
     arbitrary shapefiles. 4. Overlaying those maps over reference maps from
     Google Maps. 
-Version: 3.7.1
+Version: 3.7.2
 Authors@R: c(
     person("Ari", "Lamstein", , "ari@lamsteinconsulting.com", c("aut", "cre")),
     person("Brian", "Johnson", , role = "ctb"),
@@ -21,7 +21,8 @@ License: BSD_3_clause + file LICENSE
 Imports: Hmisc, stringr, ggplot2 (>= 2.0.0), dplyr, R6, WDI, ggmap,
         RgoogleMaps, tigris (>= 1.0), gridExtra, xml2, rvest, tidyr,
         tidycensus
-Suggests: testthat, choroplethrMaps, choroplethrAdmin1 (>= 1.1.0)
+Suggests: testthat, choroplethrMaps, choroplethrAdmin1 (>= 1.1.0),
+        knitr, rmarkdown, scales
 Depends: R (>= 3.5.0), acs
 Collate: 'acs.R' 'choropleth.R' 'admin1.R' 'admin1_region.R'
         'choroplethr_animate.R' 'choroplethr_wdi.R' 'country.R' 'usa.R'
@@ -30,12 +31,13 @@ Collate: 'acs.R' 'choropleth.R' 'admin1.R' 'admin1_region.R'
         'get_congressional_demographics.R' 'get_county_demographics.R'
         'get_state_demograhpics.R' 'get_tract_demographics.R'
         'startup_messages.R' 'state.R' 'tract.R' 'utils.R'
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Encoding: UTF-8
+VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2022-10-05 00:12:08 UTC; arilamstein
+Packaged: 2023-07-06 13:24:46 UTC; arilamstein
 Author: Ari Lamstein [aut, cre],
   Brian Johnson [ctb],
   Trulia, Inc. [cph]
 Repository: CRAN
-Date/Publication: 2022-10-05 07:10:06 UTC
+Date/Publication: 2023-07-06 23:10:08 UTC
