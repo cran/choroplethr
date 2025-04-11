@@ -39,7 +39,7 @@ The map used comes from ?admin1.map in the choroplethrAdmin1 package. See ?get_a
 and ?get_admin_regions in the choroplethrAdmin1 package for help with the spelling of regions.
 }
 \examples{
-\dontrun{
+\donttest{
 
 library(choroplethrAdmin1)
 
@@ -62,13 +62,5 @@ admin1_choropleth("japan",
                    "Population", 
                    1, 
                    kansai)
-                   
-admin1_choropleth("japan", 
-                   df_japan_census, 
-                   "2010 Japan Population Estimates", 
-                   "Population", 
-                   1, 
-                   kansai,
-                   reference_map = TRUE)
 }
 }

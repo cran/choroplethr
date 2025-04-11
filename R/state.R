@@ -62,20 +62,12 @@ StateChoropleth = R6Class("StateChoropleth",
 #' match the names of states as they appear in the "region" column of ?state.regions.
 #' @param reference_map If true, render the choropleth over a reference map from Google Maps.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # default parameters
 #' data(df_pop_state)
 #' state_choropleth(df_pop_state, 
 #'                  title  = "US 2012 State Population Estimates", 
 #'                  legend = "Population")
-#'
-#' # choropleth over reference map of continental usa
-#' data(continental_us_states)
-#' state_choropleth(df_pop_state, 
-#'                  title         = "US 2012 State Population Estimates",
-#'                  legend        = "Population",
-#'                  zoom          = continental_us_states, 
-#'                  reference_map = TRUE)
 #'
 #' # continuous scale and zoom
 #' data(df_pop_state)

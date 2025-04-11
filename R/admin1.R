@@ -43,7 +43,7 @@ Admin1Choropleth = R6Class("Admin1Choropleth",
 #' match the names of regions as they appear in the "region" column of ?admin1.regions.
 #' @param reference_map If true, render the choropleth over a reference map from Google Maps.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' 
 #' library(choroplethrAdmin1)
 #' 
@@ -66,14 +66,6 @@ Admin1Choropleth = R6Class("Admin1Choropleth",
 #'                    "Population", 
 #'                    1, 
 #'                    kansai)
-#'                    
-#' admin1_choropleth("japan", 
-#'                    df_japan_census, 
-#'                    "2010 Japan Population Estimates", 
-#'                    "Population", 
-#'                    1, 
-#'                    kansai,
-#'                    reference_map = TRUE)
 #' }
 #' @export
 #' @importFrom Hmisc cut2
